@@ -15,3 +15,5 @@
 7. Helm templates i have provided only for backend service java and for observability added appdynamics and promtheius configuration in deployment yaml files.
 
 8. Updated appdynamics jar agents in backend docker file and where install the agents and push the metrics to appdynamics but manually endpoints needs to be added to monitor the application.Another option promethues lets say prometheus installed already and apllications geneartes the metrics into given endpoint added in deployment yaml and scrape every 15sec using service monitor yaml and prometheus server url needs to be configured in grafana as a source to import the metrics for an app.
+
+9. the example uses the mysql container but my suggestion would be using managed mysql with terafrom and where i am widely using in my existing company.Due to time issues i have not provided helm templates for frontend and terraorm for mysql.
