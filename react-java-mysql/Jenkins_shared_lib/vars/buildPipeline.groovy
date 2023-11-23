@@ -28,9 +28,11 @@ def call() {
   def awsEcrUrl
   def awsAccountId
   def pipelineConfig
-  
-  
-  Git gitTool = new Git(gitCredentials: 'tenable-git')
+    String versionClassifier
+    String versionString
+    int[] version
+
+    Git gitTool = new Git(gitCredentials: 'tenable-git')
   Tool sonarQubeTool
   currentBuild.result = 'SUCCESS'
   
