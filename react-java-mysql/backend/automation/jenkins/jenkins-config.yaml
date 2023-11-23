@@ -1,0 +1,10 @@
+app:
+ name: java-mysql
+ buildType: springboot-11
+ mavenBuildParams: -Dpsring.profiles.active=test
+ junit: ''
+ sonarParams: '-Dsonar.junit.reportPaths=./target/surfire-reports'
+ integrationTestParams: ''
+ integrationAutomationTestUrl: dev.tenable.com
+
+

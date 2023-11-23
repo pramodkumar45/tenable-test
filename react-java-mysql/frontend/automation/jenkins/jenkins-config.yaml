@@ -1,0 +1,11 @@
+app:
+ name: node-ui
+ buildType: node
+ buildParams: 'npm run coverageAll'
+ mavenBuildParams: ''
+ sonarParams: '-Dsonar.junit.reportPaths=./target/surfire-reports'
+ integrationTestParams: ''
+ registries:
+  npm:
+   url: https://nrm.us.com/repository/tenable
+   publishScriptName: 'publish'

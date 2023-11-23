@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels: 
+     appVersion: {{ .Values.deployment.version }} 
+     environment: {{ .Values.deployment.environment }} 
+spec:
+  replicas: {{ .Values.deployment.replicaSet.min }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        prometheus.io/scrape : "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/java-mysql/manage/promtheus"
+  spec:
+      serviceAccountName: {{ .Values.service.env.ServiceAccountName }}
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.deployment.image }}:{{ .Values.deployment.version}}"
+          imagePullPolicy: Always
+          ports:
+              - containerPort: {{ .Values.service.env.containerPort }}
+          env:
+          - name: PORT
+            value: {{ .Values.service.env.port }}
+          - name: APPD_ENV
+            value: {{ .Values.deployment.containers.appd_env }}
+          - name: APPD_JAVA_AGENT
+            value: {{ .Values.deployment.containers.appd_url }}
+          - name: APPD_APPNAME
+            value: { { .Values.deployment.containers.appd_appname } }
+          - name: APPD_TIER
+            value: { { .Values.deployment.containers.appd_tier }}
+          - name: APP_NAME
+            value: {{ .Values.app.name }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.env.port }}
+            initialDelaySeconds: 30
+            PeriodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.env.port}}
+            initialDelaySeconds: 30
+            PeriodSeconds: 10
+          resources:
+           limits:
+             cpu: {{ .Values.resources.limits.cpu }}
+             memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.cpu }}
+          securityContext:
+           allowPrivilegeEscalation: {{ .Values.deployment.containers.allowPrivilegeEscalation}}

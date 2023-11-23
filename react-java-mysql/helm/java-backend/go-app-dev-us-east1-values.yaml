@@ -1,0 +1,37 @@
+app: 
+  name: java-mysql
+deployment:
+  region: us-east-1
+  environment: dev
+  replicaSet:
+    min: 2
+    max: 6
+  image: ''
+  version: latest
+  resources:
+    limits: 
+      cpu: "1000m"
+      memory: "2000mi"
+    requests:
+      cpu: "1000m"
+      memory: "2000mi"
+  containers:
+    appd_env : "nonprod"
+    appd_java_agent: "/var/java-mysql/appdynamics/javaagent.jar"
+    appd_app_name: "TENABLE.NONPROD.JAVA-MYSQL"
+    appd_tier: "TENABLE.AWS.US-EAST1"
+service:
+ path: /hello
+ env:
+  serviceAccountName: java-mysql
+  containerport: 8080
+  protocol: http
+  port: 8080
+  protocolType: TCP
+hpa:
+ targetCPUUtilization: 80
+ targetMemoryUtilization: 90
+pdb:
+ minAvailable: 50%
+containers:
+ allowPrivilegeEscalation: false

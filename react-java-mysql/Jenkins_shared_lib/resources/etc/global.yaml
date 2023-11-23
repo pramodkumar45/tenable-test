@@ -1,0 +1,14 @@
+---
+environmentMap:
+  dev: non-prod
+  int: non-prod
+  load: non-prod
+  prod: prod
+
+deploy:
+  us-east-1:
+    non-prod: np-us-east1
+    prod: pr-us-east1
+  eu-west-2:
+    non-prod: np-euw2
+    prod: prd-euw2

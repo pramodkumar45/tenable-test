@@ -1,0 +1,32 @@
+app: 
+  name: java-mysql
+deployment:
+  region: us-east-1
+  environment: qa
+  replicaSet:
+    min: 2
+    max: 6
+  image: ''
+  version: latest
+  resources:
+    limits: 
+      cpu: "1000m"
+      memory: "2000mi"
+    requests:
+      cpu: "1000m"
+      memory: "2000mi"
+service:
+ path: /hello
+ env:
+  serviceAccountName: java-mysql-sa
+  containerport: 8080
+  protocol: http
+  port: 8080
+  protocolType: TCP
+hpa:
+ targetCPUUtilization: 80
+ targetMemoryUtilization: 80
+pdb:
+ minAvailable: 50%
+containers:
+ allowPrivilegeEscalation: false

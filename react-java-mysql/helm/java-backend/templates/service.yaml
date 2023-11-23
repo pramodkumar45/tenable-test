@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.app.name }}-ingress
+  labels:
+  app: {{ .Values.app.name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.app.name }}
+  ports:
+   - name: https
+     protocol: {{ .Values.service.env.protocolType }}
+     port: 443
+     targetPort: {{ .Values.service.env.port }}
